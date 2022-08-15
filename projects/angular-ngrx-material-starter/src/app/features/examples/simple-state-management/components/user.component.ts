@@ -1,4 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  HostListener
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -11,6 +16,10 @@ import { map, startWith } from 'rxjs/operators';
 import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../../core/animations/route.animations';
 
 import { User, UserService } from '../user.service';
+import {
+  BeforeunloadGuard,
+  OnBeforeunload
+} from '../guards/beforeunload.guard';
 
 @Component({
   selector: 'anms-user',
@@ -18,13 +27,28 @@ import { User, UserService } from '../user.service';
   styleUrls: ['./user.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit, BeforeunloadGuard {
   routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
   userForm: FormGroup = new FormGroup({});
   users$: Observable<User[]> | undefined;
   isEdit$: Observable<{ value: boolean }> | undefined;
 
+  shouldConfirmOnBeforeunload() {
+    return !!this.userForm.controls['username'].value;
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnload(e: Event) {
+    if (this.shouldConfirmOnBeforeunload()) {
+      e.returnValue = true;
+    }
+  }
+
   constructor(private fb: FormBuilder, private userService: UserService) {}
+
+  canDeactivate(component: OnBeforeunload): boolean {
+    throw new Error('Method not implemented.');
+  }
 
   ngOnInit() {
     this.users$ = this.userService.users$;

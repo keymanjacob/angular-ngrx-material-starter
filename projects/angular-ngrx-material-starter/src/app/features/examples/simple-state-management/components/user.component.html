@@ -30,6 +30,9 @@
       <ng-container *ngIf="isEdit$ | async as isEdit">
       <h2 *ngIf="!isEdit.value">{{'anms.examples.simple-state-management.form.add.title' | translate}}</h2>
       <h2 *ngIf="isEdit.value">{{'anms.examples.simple-state-management.form.edit.title' | translate}}</h2>
+
+        <p><a routerLink="/">Go to TOP</a></p>
+        <p><a href="https://angular.io/">Angular.ioへ</a></p>
       <form [formGroup]="userForm" #userFormRef="ngForm" (ngSubmit)="onSubmit(userFormRef)">
         <mat-form-field>
           <input

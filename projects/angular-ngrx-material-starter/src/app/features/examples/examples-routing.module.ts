@@ -13,6 +13,7 @@ import { FormComponent } from './form/components/form.component';
 import { NotificationsComponent } from './notifications/components/notifications.component';
 import { UserComponent } from './simple-state-management/components/user.component';
 import { ElementsComponent } from './elements/elements.component';
+import { BeforeunloadGuard } from './simple-state-management/guards/beforeunload.guard';
 
 const routes: Routes = [
   {
@@ -52,7 +53,8 @@ const routes: Routes = [
       {
         path: 'simple-state-management',
         component: UserComponent,
-        data: { title: 'anms.examples.menu.simple-state-management' }
+        data: { title: 'anms.examples.menu.simple-state-management' },
+        canDeactivate: [BeforeunloadGuard]
       },
       {
         path: 'form',

@@ -29,6 +29,7 @@ import { ExamplesEffects } from './examples.effects';
 import { UserComponent } from './simple-state-management/components/user.component';
 import { UserService } from './simple-state-management/user.service';
 import { ElementsComponent } from './elements/elements.component';
+import { BeforeunloadGuard } from './simple-state-management/guards/beforeunload.guard';
 
 export function httpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(
@@ -74,7 +75,7 @@ export function httpLoaderFactory(http: HttpClient) {
     UserComponent,
     ElementsComponent
   ],
-  providers: [StockMarketService, UserService]
+  providers: [StockMarketService, UserService, BeforeunloadGuard]
 })
 export class ExamplesModule {
   constructor() {}
